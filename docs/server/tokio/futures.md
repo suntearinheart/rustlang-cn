@@ -2,19 +2,19 @@
 
 在指南早期暗示的`future`是用于管理异步逻辑的构建块。 它们是Tokio使用的底层异步抽象。
 
-`future`的实施由`future`箱提供。 但是，为方便起见，Tokio重新导出了许多类型。
+`future`的实施由`future` `crate`提供。 但是，为方便起见，Tokio重新导出了许多类型。
 
 ## Futures是什么
 
 future是表示异步计算完成的值。通常，由于系统中其他位置发生的事件，`future`会完成。虽然我们从基本I / O的角度看待事物，但您可以使用`future`来表示各种事件，例如：
 
-* 在线程池中执行的数据库查询。查询完成后，将来完成，其值是查询的结果。
+* 在线程池中执行的数据库查询。当数据库查询完成时，`future` 完成，其值是查询的结果。
 
-* 对服务器的RPC调用。当服务器回复时，`future`完成，其值是服务器的响应。
+* 对服务器的RPC 调用。当服务器回复时，`future` 完成，其值是服务器的响应。
 
-* 超时。当时间到了，`future`就完成了，它的值是（）。
+* 超时事件。当时间到了，`future`就完成了，它的值是（）。
 
-* 在线程池上运行的长时间运行的CPU密集型任务。任务完成后，将来完成，其值为任务的返回值。
+* 在线程池上运行的长时间运行的CPU密集型任务。任务完成后，`future` 完成，其值为任务的返回值。
 
 * 从套接字读取字节。当字节准备就绪时，`future`就完成了 - 根据缓冲策略，字节可能直接返回，或作为副作用写入某个现有缓冲区。
 
@@ -45,13 +45,13 @@ track_response_success(response_is_ok);
 
 所有与`future`一起采取的行动都不会立即执行任何工作。他们不能，因为他们没有实际的HTTP响应。相反，他们定义了响应`future`完成时要完成的工作。
 
-`future`箱和Tokio都有一系列组合功能，可以用来处理`future`。
+`future` `crate`和Tokio都有一系列组合功能，可以用来处理`future`。
 
 ## 实现`future`
 
-使用Tokio时，实现Future是很常见的，因此对它感到满意是很重要的。
+使用Tokio时，实现Future是很常见的，因此适应它是很重要的。
 
-如前一节所述，Rust`future`是基于民意调查的。这是Rust`future`库的一个独特方面。其他编程语言的大多数`future`库使用基于推送的模型，其中回调被提供给`future`，并且计算立即使用计算结果调用回调。
+如前一节所述，Rust`future`是基于轮询的。这是Rust`future`库的一个独特方面。其他编程语言的大多数`future`库使用基于推送的模型，其中回调被提供给`future`，并且计算立即使用计算结果调用回调。
 
 使用基于轮询的模型提供了许多优点，包括作为零成本抽象，即，与手动编写异步代码相比，使用Rust`future`没有额外的开销。
 
@@ -102,7 +102,7 @@ where T: Future<Item = usize>
 
 当Doubler`future`被调查时，它会调查其内在的`future`。 如果内部`future`尚未准备好，Doubler future将返回NotReady。 如果内心的`future`已经准备就绪，那么Doubler的`future`会使返回值加倍并返回Ready。
 
-因为上面的匹配模式很常见，所以`future`箱提供了一个宏：try_ready！。 它类似于尝试！ 或？，但它也返回NotReady。 上面的poll功能可以使用try_ready重写！ 如下：
+因为上面的匹配模式很常见，所以`future` `crate`提供了一个宏：try_ready！。 它类似于`try！` 或`？`，但它也返回NotReady。 上面的poll功能可以使用try_ready重写！ 如下：
 
 ```rust
 fn poll(&mut self) -> Result<Async<usize>, T::Error> {
