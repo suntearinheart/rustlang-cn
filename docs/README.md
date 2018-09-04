@@ -26,7 +26,6 @@ features:
 footer: MIT Licensed | Copyright © 2018-present | krircc
 ---
 
-## Hi Ruster.
+## Hi 
 
 Rust 是一种安全、并发、实用的系统语言。 它有着惊人的运行速度，能够防止段错误，并保证线程安全。 
-

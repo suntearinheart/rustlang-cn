@@ -2,7 +2,7 @@ let { book } = require ('./category/rust.js')
 let { std } = require ('./category/std.js')
 
 module.exports = {
-    title: 'Rust语言中文社区',
+    title: 'Rust中文社区',
     description: 'Rust语言为中心的中文社区',
     head: [
       ['link', { rel: 'icon', href: `/favicon.ico` }],

@@ -1,3 +1,3 @@
-# Rust 资源
+# Rust资源
 
 WIP
