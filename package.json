@@ -1,0 +1,24 @@
+{
+  "name": "rustlang-cn",
+  "version": "1.0.0",
+  "description": "rustlang-cn",
+  "repository": "https://github.com/rustlang-cn/rustlang-cn.git",
+  "license": "GPL-3",
+  "private": true,
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "dependencies": {
+    "vuex": "^3.0.1",
+    "vuepress-theme-vue": "^1.0.3"
+  },
+  "devDependencies": {
+    "vuepress": "^0.13.1"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
