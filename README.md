@@ -1,4 +1,4 @@
-# Rust中文文档中心 rustlang-cn [![Build Status](https://travis-ci.org/rustlang-cn/rustlang-cn.svg?branch=master)](https://travis-ci.org/rustlang-cn/rustlang-cn)
+# rustlang-cn [![Build Status](https://travis-ci.org/rustlang-cn/rustlang-cn.svg?branch=master)](https://travis-ci.org/rustlang-cn/rustlang-cn)
 
 ## 修改文件：
 
