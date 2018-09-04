@@ -19,13 +19,13 @@ tokio = "0.1"
 在`main.rs`中的引入包和类型：
 
 ```rust
-# #![deny(deprecated)]
+#![deny(deprecated)]
 extern crate tokio;
 
 use tokio::io;
 use tokio::net::TcpListener;
 use tokio::prelude::*;
-# fn main() {}
+fn main() {}
 ```
 
 ## 编写服务器
@@ -33,12 +33,12 @@ use tokio::prelude::*;
 第一步是将`TcpListener`绑定到本地端口。我们使用Tokio提供的`TcpListener`实现。
 
 ```rust
-# #![deny(deprecated)]
-# extern crate tokio;
+#![deny(deprecated)]
+extern crate tokio;
 #
-# use tokio::io;
-# use tokio::net::TcpListener;
-# use tokio::prelude::*;
+use tokio::io;
+use tokio::net::TcpListener;
+use tokio::prelude::*;
 fn main() {
     let addr = "127.0.0.1:6142".parse().unwrap();
     let listener = TcpListener::bind(&addr).unwrap();
@@ -50,15 +50,15 @@ fn main() {
 接下来，我们定义服务器任务。此异步任务将侦听传入绑定侦听器上的连接并处理每个接受的连接。
 
 ```rust
-# #![deny(deprecated)]
-# extern crate tokio;
+#![deny(deprecated)]
+extern crate tokio;
 #
-# use tokio::io;
-# use tokio::net::TcpListener;
-# use tokio::prelude::*;
-# fn main() {
-#     let addr = "127.0.0.1:6142".parse().unwrap();
-#     let listener = TcpListener::bind(&addr).unwrap();
+use tokio::io;
+use tokio::net::TcpListener;
+use tokio::prelude::*;
+fn main() {
+    let addr = "127.0.0.1:6142".parse().unwrap();
+    let listener = TcpListener::bind(&addr).unwrap();
 let server = listener.incoming().for_each(|socket| {
     println!("accepted socket; addr={:?}", socket.peer_addr().unwrap());
 
@@ -73,17 +73,16 @@ let server = listener.incoming().for_each(|socket| {
     // In our example, we are only going to log the error to STDOUT.
     println!("accept error = {:?}", err);
 });
-# }
+}
 ```
 
 组合函数用于定义异步任务。调用`listener.incoming（）`返回已接受连接的[`Stream`]。  [`Stream`]有点像异步迭代器。
 
 每个组合函数都具有必要状态的所有权回调执行并返回一个新的`Future`或`Stream`额外的“步骤”序列。
 
-返回的期货和流是懒惰的，即在呼叫时不执行任何工作。相反，一旦所有异步步骤都被序列化，那么最终的`Future`（代表任务）是在执行者(executor)产生。这是开始运行时候定义的工作。
+返回的 `future`和 `Stream`是懒惰的，即在呼叫时不执行任何工作。相反，一旦所有异步步骤都被序列化，那么最终的`Future`（代表任务）是在执行者(executor)产生。这是开始运行时候定义的工作。
 
 我们将在以后挖掘`Future`和`Stream`。
-
 
 ## 产生任务
 
@@ -92,20 +91,20 @@ let server = listener.incoming().for_each(|socket| {
 Tokio运行时是异步应用程序的预配置运行时。它包括一个线程池作为默认执行程序。此线程池已调整为用于异步应用程序。
 
 ```rust
-# #![deny(deprecated)]
-# extern crate tokio;
-# extern crate futures;
+#![deny(deprecated)]
+extern crate tokio;
+extern crate futures;
 #
-# use tokio::io;
-# use tokio::net::TcpListener;
-# use tokio::prelude::*;
-# use futures::future;
-# fn main() {
-# let server = future::ok(());
+use tokio::io;
+use tokio::net::TcpListener;
+use tokio::prelude::*;
+use futures::future;
+fn main() {
+let server = future::ok(());
 
 println!("server running on localhost:6142");
 tokio::run(server);
-# }
+}
 ```
 
 `tokio :: run`启动运行时，阻塞当前线程直到所有生成的任务都已完成，所有资源（如TCP套接字）都已完成
@@ -117,20 +116,20 @@ tokio::run(server);
 
 ## 写入数据
 
-我们的目标是在每个接受的套接字上写上“hello world \ n”。我们会通过定义一个新的异步任务来执行写入和生成该任务相同的`current_thread`执行者。
+我们的目标是在每个接受的套接字上写上“hello world \ n”。我们会通过定义一个新的异步任务在相同的`current_thread`执行者上执行写入和生成该任务。
 
 回到`incoming().for_each`块。
 
 ```rust
-# #![deny(deprecated)]
-# extern crate tokio;
+#![deny(deprecated)]
+extern crate tokio;
 #
-# use tokio::io;
-# use tokio::net::TcpListener;
-# use tokio::prelude::*;
-# fn main() {
-#     let addr = "127.0.0.1:6142".parse().unwrap();
-#     let listener = TcpListener::bind(&addr).unwrap();
+use tokio::io;
+use tokio::net::TcpListener;
+use tokio::prelude::*;
+fn main() {
+    let addr = "127.0.0.1:6142".parse().unwrap();
+    let listener = TcpListener::bind(&addr).unwrap();
 let server = listener.incoming().for_each(|socket| {
     println!("accepted socket; addr={:?}", socket.peer_addr().unwrap());
 
@@ -145,11 +144,11 @@ let server = listener.incoming().for_each(|socket| {
 
     Ok(())
 })
-# ;
-# }
+;
+}
 ```
 
-我们正在定义另一个异步任务。这项任务将取得所有权socket，在该套接字上写入消息，然后完成。 `连接`变量保存最后的任务。同样，还没有完成任何工作。
+我们正在定义另一个异步任务。这项任务将取得所有权socket，在该套接字上写入消息，然后完成。 `connection`变量保存最后的任务。同样，还没有完成任何工作。
 
 `tokio :: spawn`用于在运行时生成任务。因为`server` future在运行时运行，我们可以产生更多的任务。如果从运行时外部调用，`tokio :: spawn`将会发生混乱。
 
