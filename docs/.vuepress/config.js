@@ -17,7 +17,7 @@ module.exports = {
     serviceWorker: true,
     theme: 'vue',
     themeConfig: {
-        repo: 'ruster-xyz',
+        repo: 'rustlang-cn',
         docsDir: 'docs',
         displayAllHeaders: true,
         editLinks: true,
