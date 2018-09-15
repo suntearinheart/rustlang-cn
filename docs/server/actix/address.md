@@ -7,41 +7,25 @@ Actor通过交换消息进行通信。发送者可以选择等待回应。`actor
 这是一个`Actors::tart()`方法用法的例子。在这个例子中，`MyActor` `actor`是异步的，并且在与调用者相同的线程中启动。
 
 ```rust
-# extern crate actix;
-# use actix::prelude::*;
+extern crate actix;
+use actix::prelude::*;
 struct MyActor;
 impl Actor for MyActor {
     type Context = Context<Self>;
 }
 
-# fn main() {
-# System::new("test");
+fn main() {
+System::new("test");
 let addr = MyActor.start();
-# }
-```
-
-相同的例子，但返回的地址是线程安全的，可以发送到不同的线程。
-
-```rust
-# extern crate actix;
-# use actix::prelude::*;
-struct MyActor;
-impl Actor for MyActor {
-    type Context = Context<Self>;
 }
-
-# fn main() {
-# System::new("test");
-let addr = MyActor.start();
-# }
 ```
 
-异步actor可以从`Context`对象获取其地址。背景需要实现`AsyncContext` trait。 `AsyncContext::address()`提供了actor的`addres`。
+异步actor可以从`Context`对象获取其地址。Context需要实现`AsyncContext` trait。 `AsyncContext::address()`提供了actor的`addres`。
 
 
 ```rust
-# extern crate actix;
-# use actix::prelude::*;
+extern crate actix;
+use actix::prelude::*;
 struct MyActor;
 impl Actor for MyActor {
     type Context = Context<Self>;
@@ -50,7 +34,7 @@ impl Actor for MyActor {
        let addr = ctx.address();
     }
 }
-# fn main() {}
+fn main() {}
 ```
 
 ## Mailbox
@@ -60,7 +44,7 @@ impl Actor for MyActor {
 
 ## Message
 
-为了能够处理`actor`必须提供的特定消息[Handler\<M>](https://actix/trait.Handler.html)此消息的实现。所有消息都是静态类型的。消息可以`asynchronous fashion`处理。actor可以产生其他`actor`或添加`future`或 `streams`到执行上下文。 `actor `trait提供了几种允许的方法控制actor的生命周期。
+为了能够处理特定消息, `actor`必须提供此消息的`Handler<M>`实现。所有消息都是静态类型的。消息可以以异步方式处理。actor可以产生其他`actor`或添加`future`或 `streams`到执行上下文。 `actor `trait提供了几种方法允许控制actor的生命周期。
 
 要向actor发送消息，需要使用`Addr`对象。 `Addr`提供了几个发送消息的方式。
 
@@ -68,17 +52,17 @@ impl Actor for MyActor {
 
 * `Addr :: try_send(M)` - 此方法尝试立即发送消息。如果`mailbox`已满或关闭（actor已死），此方法返回一个[SendError](https://Actix.SendError.html)。
 
-* `Addr :: send(M)` - 此消息返回一个解析为future对象的结果,消息处理过程如果返回的`Future`对象被删除，那么消息被取消。
+* `Addr :: send(M)` - 此消息返回一个解析为future对象的结果,如果消息处理过程返回的`Future`对象被消毁，那么消息被取消。
 
 ## Recipient
 
-`Recipient`是`address`的专用版本，仅支持一种类型的`message`。它可以用于需要将消息发送给不同类型的actor的情况。可以使用`Addr :: recipient（）`从`address`创建`recipient`对象。
+`Recipient`是`address`的特别版本，仅支持一种类型的`message`。它可以用于需要将消息发送给不同类型的actor的情况。可以使用`Addr :: recipient（）`从`address`创建`recipient`对象。
 
-例如，`recipient`可以用于订阅系统。在以下示例中`ProcessSignals` actor向所有订阅者发送`Signal`消息。订户可以是任何实现`Handler <Signal>`特征的actor。
+例如，`recipient`可以用于订阅系统。在以下示例中`ProcessSignals` actor向所有订阅者发送`Signal`消息。订户可以是任何实现`Handler <Signal>` trait 的actor。
 
 ```rust
-# #[macro_use] extern crate actix;
-# use actix::prelude::*;
+#[macro_use] extern crate actix;
+use actix::prelude::*;
 #[derive(Message)]
 struct Signal(usize);
 
@@ -113,5 +97,5 @@ impl Handler<Subscribe> for ProcessSignals {
         self.subscribers.push(msg.0);
     }
 }
-# fn main() {}
+fn main() {}
 ```
