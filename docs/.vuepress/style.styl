@@ -9,21 +9,25 @@
 
 
 .front {
-    // background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7)), url("/imgs/front.jpg");
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7)), url("/imgs/front.jpg");
     background-size: cover;
-    padding-top: 11%;
+    padding-top: 10%;
     max-height: 585px;
 }
 
 .home .hero {
     color: fuchsia !important;
 }
+.home .description {
+    color: white !important;
+}
 
-.home .features 
-    margin-bottom: 10px !important;
-        
-
-@media (max-width: 420px) {
+@media only screen and (min-width: 420px) and (max-width: 603px) {
+    .front {
+        max-height: 585px;
+    }
+}
+@media (max-width: 419px) {
     .front {
         max-height: 500px;
     }

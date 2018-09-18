@@ -1,5 +1,6 @@
 let { book } = require ('./category/rust.js')
 let { std } = require ('./category/std.js')
+let { tokio } = require ('./category/tokio.js')
 
 module.exports = {
     title: 'Rust中文社区',
@@ -55,7 +56,7 @@ module.exports = {
         sidebar: {
           '/rust/book/': book('Rust'),
           '/rust/std/': std('Std'),
-          '/server/tokio/': genTokio('Tokio'),
+          '/server/tokio/': tokio('Tokio'),
           '/server/actix/': genActix('Actix'),
           '/server/actix-web/': genActixWeb('Actix-Web'),
           '/server/diesel/': genDiesel('Diesel'),
@@ -63,35 +64,6 @@ module.exports = {
           '/resourse/community/': genCommunity('社区')
         }
     }
-  }
-
-  function genTokio (title) {
-    return [
-      '',
-      {
-        title: '开始',
-        collapsable: false,
-        children: [
-          'hello-world',
-          'runtime-model',
-          'futures',
-          'tasks',
-          'IO',
-          'example-chat-server'
-        ]
-      },
-      {
-        title: '深入',
-        collapsable: false,
-        children: [
-          'timers',
-          'essential-combinators',
-          'returning-futures',
-          'working-with-framed-streams',
-          'building-runtime'
-        ]
-      }
-    ]
   }
 
   function genActix (title) {

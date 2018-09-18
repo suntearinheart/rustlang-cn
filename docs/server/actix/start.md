@@ -1,4 +1,5 @@
-## 开始
+# 开始
+
 让我们创建并运行我们的第一个actix应用程序。我们将创建一个新的`Cargo`项目，该项目依赖于`actix`然后运行应用程序。
 
 在上一节中，我们已经安装了所需的Rust版本 现在让我们创建新的Cargo项目。
@@ -54,9 +55,10 @@ impl Message for Ping {
 
 fn main() {}
 ```
+
 `Message`trait的主要目的是定义结果类型。 `Ping`消息定义`usize`，表示任何可以接受`Ping`消息的actor都需要返回`usize`值。
 
-最后，我们需要声明我们的`actor `MyActor`可以接受`Ping`并处理它。为此，actor需要实现`Handler <Ping>`trait。
+最后，我们需要声明我们的`actor` `MyActor`可以接受`Ping`并处理它。为此，actor需要实现`Handler <Ping>` trait。
 
 ```rust
 extern crate actix;
@@ -87,6 +89,7 @@ impl Handler<Ping> for MyActor {
 
 fn main() {}
 ```
+
 现在我们只需要启动我们的actor并向其发送消息。启动过程取决于actor的上下文实现。在我们的情况下可以使用`Context <A>`其基于tokio / future。我们可以用`Actor :: start（）`开始它或者`Actor :: create（）`。第一个是在可以立即创建actor实例时使用的。第二种方法用于我们在创建之前需要访问上下文对象的情况actor实例。对于`MyActor` actor，我们可以使用`start（）`。
 
 与actor的所有通信都通过一个address。你可以`do_send`一条消息无需等待响应，或`send`给具有特定消息的`actor`。`start（）`和`create（）`都返回一个address对象。
@@ -138,4 +141,5 @@ fn main() {
     system.run();
 }
 ```
+
 Ping示例位于[示例](https://github.com/actix/actix/tree/master/examples/)中。
