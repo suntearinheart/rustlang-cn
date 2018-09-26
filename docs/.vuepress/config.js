@@ -49,7 +49,8 @@ module.exports = {
           ] },
           { text: '资源', items: [ 
             { text: '官方', link: '/resourse/office/' },
-            { text: '社区', link: '/resourse/community/' }
+            { text: '社区', link: '/resourse/community/' },
+            { text: 'Crates', link: '/resourse/crates/' }
           ] },
           { text: '论坛', link: 'http://ruster.xyz' }
         ],
