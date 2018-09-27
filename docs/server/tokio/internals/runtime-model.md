@@ -64,7 +64,7 @@ impl Future for MyTask {
 * [`task::current`][current]
 * [`Task::notify`][notify]
 
-当调用`my_resource.poll（）`时，如果资源准备就绪，则立即返回值而不使用任务系统。如果资源**没有**准备好，通过调用[`task::current() -> Task`][current] 来获取当前任务的句柄。这是通过读取`executor`设置的本地线程变量集获得此句柄 。
+当调用`my_resource.poll（）`时，如果资源准备就绪，则立即返回值而不使用任务系统。如果资源**没有**准备好，通过调用[`task::current() -> Task`][current] 来获取当前任务的句柄。这是通过读取`executor`设置的线程局部变量集获得此句柄 。
 
 一些外部事件（在网络上接收的数据，后台线程完成计算等...将导致`my_resource`准备好生成它的值。那时，准备好`my_resource`的逻辑将调用从[`task :: current`] [current]获得的任务句柄上的[`notify`]。这个表示准备就绪会改变 `executor`， `executor`随后安排任务执行。
 
@@ -72,9 +72,9 @@ impl Future for MyTask {
 
 ## `Async :: NotReady`
 
-任何返回`Async`的函数都必须遵守[contract][contract]。 当返回`NotReady`，当前任务**必须**已经注册准备就绪变更通知。 讨论了资源的含义以上部分。 对于任务逻辑，这意味着无法返回`NotReady`除非资源已返回“NotReady”。 通过这样做，[contract][contract]过渡地维护。 当前任务已注册通知，因为已从资源收到`NotReady`。
+任何返回`Async`的函数都必须遵守[contract][contract](契约)。 当返回`NotReady`，当前任务**必须**已经注册准备就绪变更通知。 以上部分讨论了资源的含义。 对于任务逻辑，这意味着无法返回`NotReady`除非资源已返回“NotReady”。 通过这样做，[contract][contract]得到了传承。 当前任务已注册通知，因为已从资源收到`NotReady`。
 
-必须非常小心避免在没有的情况下返回“NotReady”从资源收到`NotReady`。 例如，以下任务任务结果永远不会完成。
+必须非常小心避免在没有从资源收到`NotReady`的情况下返回`NotReady`。 例如，以下任务中，任务实现结果永远不会完成。
 
 ```rust
 use futures::{Future, Poll, Async};
@@ -106,7 +106,7 @@ impl Future for BadTask {
 }
 ```
 
-上面实现的问题是`Ok（Async :: NotReady）`是在将状态转换为“Second”后立即返回。 在这转换，没有资源返回`NotReady`。 当任务本身返回时`NotReady`，它违反了[contract][contract] ，因为任务将来不会被通知。
+上面实现的问题是`Ok（Async :: NotReady）`是在将状态转换为`Second`后立即返回。 在这转换中，没有资源返回`NotReady`。 当任务本身返回时`NotReady`，它违反了[contract][contract] ，因为任务将来不会被通知。
 
 通常通过添加循环来解决这种情况：
 
@@ -131,15 +131,15 @@ fn poll(&mut self) -> Poll<Self::Item, Self::Error> {
 }
 ```
 
-考虑它的一种方法是任务的'poll`函数**不能**返回，直到由于其资源不能进一步取得进展准备就绪或明确屈服（见下文）。
+思考它的一种方法是任务的`poll`函数**不能**返回，直到由于其资源不能进一步取得进展而准备就绪或明确`yields`（见下文）。
 
-另请注意，返回`Async`的**函数只能从一个任务调用**。 换句话说，这些函数只能从具有的代码中调用已经提交给`tokio :: spawn`或其他任务spawn函数。
+另请注意，返回`Async`的**函数只能从一个任务调用**。 换句话说，这些函数只能从已经提交给`tokio :: spawn`或其他任务spawn函数调用
 
 ## Yielding
 
-有时，任务必须返回“NotReady”而不会在资源上被阻止。这通常发生在运行计算很大且任务想要的时候将控制权交还 `executor`以允许其执行其他 `future`。
+有时，任务必须返回`NotReady`而不是在资源上被阻塞。这通常发生在运行计算很大且任务想要的时候将控制权交还 `executor`以允许其执行其他 `future`。
 
-通过通知当前任务并返回“NotReady”来完成让步：
+Yielding 是通过通知当前任务并返回“NotReady”完成：
 
 ```rust
 use futures::task;
@@ -180,28 +180,27 @@ impl Future for Count {
 
 ##  `executor`
 
- `executor`员负责完成许多任务。任务是产生于 `executor`， `executor`调用它的`poll`函数需要的时候。 `executor`挂钩到任务系统以接收资源准备通知。
+ `executor`员负责驱动完成许多任务。任务是产生于 `executor`之上， 是在`executor`需要调用它的`poll`函数的时候。 `executor`挂钩到任务系统以接收资源准备通知。
 
-通过将任务系统与 `executor`实现分离，具体执行和调度逻辑可以留给 `executor`实现。`tokio`提供两个执行器实现，每个实现具有独特的 `trait`：[`current_thread`]和[`thread_pool`]。
+通过将任务系统与 `executor`实现分离，具体执行和调度逻辑可以留给 `executor`实现。`tokio`提供两个`executor`实现，每个实现具有独特的特点：[`current_thread`]和[`thread_pool`]。
 
-当任务首次生成 `executor`时， `executor`将其包装[`Spawn`][Spawn]。这将任务逻辑与任务状态绑定（这主要是遗留原因所需要的）。 `executor`通常会将任务存储在堆，通常是将它存储在`Box`或`Arc`中。当 `executor`选择一个执行任务，它调用[`Spawn :: poll_future_notify`][poll_future_notify]。此函数确保将任务上下文设置为线程局部变量这样[`task :: current`][current]能够读取它。
+当任务首次在`executor`之上生成时， `executor`用[`Spawn`][Spawn]将其包装。这将任务逻辑与任务状态绑定（这主要是遗留原因所需要的）。 `executor`通常会将任务存储在堆，通常是将它存储在`Box`或`Arc`中。当 `executor`选择一个执行任务，它调用[`Spawn :: poll_future_notify`][poll_future_notify]。此函数确保将任务上下文设置为线程局部变量像[`task :: current`][current]能够读取它。
 
-当调用[`poll_future_notify`][poll_future_notify]时， `executor`也是传递通知句柄和标识符。这些论点包含在由[`task :: current`][current]返回的任务句柄，是任务的方式与遗嘱 `executor`有关。
+当调用[`poll_future_notify`][poll_future_notify]时， `executor`也是传递通知句柄和标识符。这些参数包含在由[`task :: current`][current]返回的任务句柄中，也是有关任务与`executor`连接的方式。
 
-notify句柄是[`Notify`][`Notify`] 的实现和标识符是 `executor`用于查找当前任务的值。什么时候调用[`Task :: notify`][notify]，[`notify`][Notify :: notify]函数使用提供的标识符调用notify句柄。实施该函数负责执行调度逻辑。
+notify句柄是[`Notify`][`Notify`] 的实现，标识符是 `executor`用于查找当前任务的值。当调用[`Task :: notify`][notify]，[`notify`][Notify :: notify]函数使用提供的标识符调用notify句柄。该函数的实现负责执行调度逻辑。
 
-实现 `executor`的一种策略是将每个任务存储在`Box`和使用链接列表来跟踪计划执行的任务。什么时候调用[`Notify :: notify`][Notify :: notify]，然后执行与之关联的任务标识符被推送到`scheduled`链表的末尾。当。。。的时候 `executor`运行时，它从链表的前面弹出并执行任务如上所述。
+实现 `executor`的一种策略是将每个任务存储在`Box`和使用链接列表来跟踪计划执行的任务。当调用[`Notify :: notify`][Notify :: notify]，然后将与之关联的任务标识符被推送到`scheduled`链表的末尾。当 `executor`运行时，它从链表的前端弹出并执行任务如上所述。
 
-请注意，本节未介绍 `executor`的运行方式。细节这留给 `executor`实施。一个选项是 `executor`产生一个或多个线程并将这些线程专用于排出`scheduled`链表。另一个是提供一个阻止它的`MyExecutor :: run`函数当前线程并排出`scheduled`链表。
+请注意，本节未介绍 `executor`的运行方式。细节这留给 `executor`实现。一个选项是 `executor`产生一个或多个线程并将这些线程专用于排出`scheduled`链表。另一个是提供一个`MyExecutor :: run`函数阻塞当前线程并排出`scheduled`链表。
 
 ## 资源，drivers和运行时
 
 资源是叶子 `future`，即未实施的 `future`其他 `future`。它们是使用上述任务系统的类型与 `executor`互动。资源类型包括TCP和UDP套接字，定时器，通道，文件句柄等.Tokio应用程序很少需要实现资源。相反，他们使用Tokio或第三方包装箱提供的资源。
 
-通常，资源本身不能起作用并且需要驱动程序。对于例如，Tokio TCP套接字由[`Reactor`]支持。反应堆是socket资源驱动程序。单个驱动程序可以为大量资源供电实例。为了使用该资源，驱动程序必须在某处运行这个过程。 Tokio提供网络资源的驱动程序（[`tokio-reactor`]），文件资源（[`tokio-fs`]）和定时器（[`tokio-timer`]）。提供解耦驱动程序组件允许用户选择他们想要的组件使用。每个驱动程序可以单独使用或与其他驱动程序结合使用。
+通常，资源本身不能起作用而是需要drivers。例如，Tokio TCP套接字由[`Reactor`]支持。`Reactor`是socket资源driver。单个driver可以为大量资源实例提供动力。要使用该资源，drivers必须在某处运行这个过程。 Tokio提供网络资源的drivers（[`tokio-reactor`]），文件资源（[`tokio-fs`]）和定时器（[`tokio-timer`]）。提供解耦driver组件允许用户选择他们想要使用的组件。每个driver可以单独使用或与其他driver结合使用。
 
-正因为如此，为了使用Tokio并成功执行任务，一个应用程序必须启动 `executor`和资源的必要驱动程序应用程序的任务依赖于。这需要大量的样板。为了管理样板，Tokio提供了几个运行时选项。运行时
-是一个执行器，捆绑了所有必要的驱动程序来为Tokio的资源提供动力。运行时不是单独管理所有各种Tokio组件在一次通话中创建并启动。
+正因为如此，为了使用Tokio并成功执行任务，一个应用程序必须启动 `executor`和必要的drivers作为应用程序的任务依赖的资源。这需要大量的样板。为了管理样板，Tokio提供了几个运行时选项。运行时是与所有必需drivers捆绑在一起的`executor`，以便为Tokio的资源提供动力。不是单独管理所有各种Tokio组件，而是在一次调用中创建并启动运行时。
 
 Tokio提供[并发运行时][concurrent]和[单线程][current_thread]运行时。并发运行时基于多线程、工作窃取 `executor`。单线程运行时执行当前线程上的所有任务和drivers。用户可以选择最适合应用的运行时。
 
