@@ -64,9 +64,9 @@ impl Future for MyTask {
 * [`task::current`][current]
 * [`Task::notify`][notify]
 
-当调用`my_resource.poll（）`时，如果资源准备就绪，则立即返回值而不使用任务系统。如果资源**没有**准备好，通过调用[`task::current() -> Task`][current] 来获取当前任务的句柄。这是通过读取`executor`设置的线程局部变量集获得此句柄 。
+当调用`my_resource.poll（）`时，如果资源准备就绪，则立即返回值而不使用任务系统。如果资源**没有**准备好，通过调用[`task::current() -> Task`][current] 来获取当前任务的句柄。这是通过读取`executor`设置的线程局部变量获得此句柄 。
 
-一些外部事件（在网络上接收的数据，后台线程完成计算等...将导致`my_resource`准备好生成它的值。那时，准备好`my_resource`的逻辑将调用从[`task :: current`] [current]获得的任务句柄上的[`notify`]。这个表示准备就绪会改变 `executor`， `executor`随后安排任务执行。
+一些外部事件（在网络上接收的数据，后台线程完成计算等...)将导致`my_resource`准备好生成它的值。那时，准备好`my_resource`的逻辑将调用从[`task :: current`][current]获得的任务句柄上的[`notify`]。这个表示准备就绪会改变 `executor`， `executor`随后安排任务执行。
 
 如果多个任务表示对资源感兴趣，则只有**last**任务这样做会得到通知。资源旨在从单一任务使用。
 
