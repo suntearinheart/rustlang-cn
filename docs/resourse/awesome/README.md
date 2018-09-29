@@ -1,4 +1,4 @@
-# Rust 社区
+# Rust
 
 Rust 编程语言有很多特质，但 Rust 最伟大的力量是，我们的社区团结一心，为更好的 Rust 体验在努力。
 
@@ -21,19 +21,93 @@ Rust 编程语言有很多特质，但 Rust 最伟大的力量是，我们的社
 
 [stack_overflow]: https://stackoverflow.com/questions/tagged/rust
 
+## Rust 语言文档
+
+[Rust文档中心](https://doc.rust-lang.org/)
+
+[Rust中文文档中心](https://rustlang-cn.github.io/)
+
+## 学习Rust
+
+[Rust 程序设计语言][book]：Rust 相关的所有主题最全面的资料，重要的官方文档。
+
+[通过例子
+学 Rust][rbe]：关于各种主题的 Rust 示例的合集，可在线预览。
+
+[Rust 高级教程][nomicon]：为高级 Rust 工程师准备的专门讲解如何编写不安全的 Rust 代码的书。
+
+[学习 Rust][rust-learning]：由社区维护、收集的学习 Rust 资料合集。
+
+[常见问题解答][faq]
+
+[book]: https://doc.rust-lang.org/book/index.html
+[rbe]: https://doc.rust-lang.org/rust-by-example/
+[nomicon]: https://doc.rust-lang.org/nomicon/
+[rust-learning]: https://github.com/ctjhoa/rust-learning
+[faq]: https://www.rust-lang.org/zh-CN/faq.html
+
+## 参考文献
+
+[标准库][api]：Rust 标准库文档。
+
+[docs.rs]：发布到 [crates.io] 的所有包的文档。
+
+[Rust 语言参考手册][ref]：当 Rust 还没有一个语言规范的时候，这个文档对它进行了尽可能详尽的描述。
+不过某些内容可能已经过时了。
+
+[语法索引][syn]：本索引中包含 Rust 中与《Rust 程序设计语言》的部分交叉引用的所有语法示例。
+
+[Cargo 使用指导][cargo]：Cargo（Rust 的包管理器）的文档。
+
+[编译器错误索引][err]：Rust 编译器生成错误报告的扩展说明。
+
+[版本维护文档][release_notes]：每次发布期间所做更改的记录文档。
+
+[平台支持][platform_support]：不同等级的平台支持列表。
+
+[api]: https://doc.rust-lang.org/std/
+[syn]: https://doc.rust-lang.org/book/syntax-index.html
+[ref]: https://doc.rust-lang.org/reference
+[cargo]: http://doc.crates.io/guide.html
+[err]: https://doc.rust-lang.org/error-index.html
+[release_notes]: https://github.com/rust-lang/rust/blob/master/RELEASES.md
+[docs.rs]: https://docs.rs
+[crates.io]: https://crates.io
+[platform_support]: https://forge.rust-lang.org/platform-support.html
+
+## Rust 项目政策与策略
+
+[Rust 安全策略][security]：该项目关于报告、修复和披露安全相关问题的策略。
+
+[Rust 版权和商标政策][legal]：Rust 的版权归 Rust 项目开发者所有，其商标归 Mozilla 所有。
+该政策描述了 Rust 商标的使用范畴。
+
+[社区行为规范][coc]：适用于包括但不仅限于 GitHub 上的 Rust-lang 组织，
+官方论坛，IRC 通道的所有 Rust 社区。
+
+[security]: https://www.rust-lang.org/zh-CN/security.html
+[legal]: https://www.rust-lang.org/zh-CN/legal.html
+[coc]: https://www.rust-lang.org/conduct.html
+
+## 开发版(nightly) 与 测试版(beta) 文档
+
+除了上面链接的稳定文档外，大多数官方 Rust 文档也可用于 [开发版(nightly)][nightly] 和 [测试版(beta)][beta]。
+
+[nightly]: https://doc.rust-lang.org/nightly/
+[beta]: https://doc.rust-lang.org/beta/
+
 ## 新闻
 
 [本周 Rust][twir] 收集最新的消息、即将举办的活动，以及每周一次的有关 Rust 语言及库的变动记事。[Rust 博客][rust_blog] 是 Rust 团队公告主要发展的地方。
 最后，几乎所有发生在 Rust 的变化都在非官方的 subreddit、[/r/rust][reddit] 上讨论。
 
-您还可以关注我们的 [Twitter][twitter] 账号或 [新浪微博][weibo]。
+您还可以关注我们的 [Twitter][twitter] 账号
 
 [twir]: https://this-week-in-rust.org/
 [rust_blog]: http://blog.rust-lang.org/
 [reddit]: https://www.reddit.com/r/rust
 [reddit_coc]: https://www.reddit.com/r/rust/comments/2rvrzx/our_code_of_conduct_please_read/
 [twitter]: https://twitter.com/rustlang
-[weibo]: http://weibo.com/u/5616913483
 
 ## IRC 频道
 
@@ -57,9 +131,10 @@ Rust 开发者们在 [#rust-internals][internals_irc] 上协作。此频道中�
 - [#rust-fr][fr_irc] est dédié à la programmation en Rust en français
 - [#rust-ru][ru_irc] для общих дискуссий о Rust на русском языке
 - [#rust-sv](https://chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust-sv) är för allmän diskussion om Rust på svenska
-- [Rust中文][cn_org] Rust 语言中文 Chat 社区(非IRC频道)
+- [Rust中文][cn_org] Rust 语言中文社区
 
 ### 团队频道
+
 - [#cargo][cargo_irc] 讨论 Rust 的包管理器 —— Cargo
 - [#rust-community][community_irc] 是 [社区团队][community_team] 之家
 - [#rustc][rustc_irc] 是 [编译器团队][compiler_team] 之家
@@ -100,7 +175,7 @@ Rust 开发者们在 [#rust-internals][internals_irc] 上协作。此频道中�
 [bots_irc]: https://client00.chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust-bots
 [br_irc]: https://client00.chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust-br
 [cargo_irc]: https://client00.chat.mibbit.com/?server=irc.mozilla.org&channel=%23cargo
-[cn_org]: https://chat.rust-china.org/
+[cn_org]: http://ruster.xyz/
 [community_irc]: https://client00.chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust-community
 [crypto_irc]: https://client00.chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust-crypto
 [de_irc]: https://client00.chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust-de
@@ -122,7 +197,7 @@ Rust 开发者们在 [#rust-internals][internals_irc] 上协作。此频道中�
 [xi_irc]: https://chat.mibbit.com/?server=irc.mozilla.org&channel=%23xi
 [dev_tools_irc]: https://chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust-dev-tools
 [style_irc]: https://chat.mibbit.com/?server=irc.mozilla.org&channel=%23style
-[style_team]: team.html#Style-team
+[style_team]: https://www.rust-lang.org/en-US/team.html#Style-team
 [mod_irc]: https://chat.mibbit.com/?server=irc.mozilla.org&channel=%23mods
 [machine_learning_irc]: https://chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust-machine-learning
 [hyper_irc]: https://chat.mibbit.com/?server=irc.mozilla.org&channel=%23hyper
@@ -162,47 +237,47 @@ Rust 有一个 [YouTube 频道][youtube_channel]，上传了来自用户群组�
 有一个全局 [日历][calendar] 可以持续关注 Rust 的事件与活动。
 联系 [社区团队][community_team] 添加你的内容。
 
-[user_group]: ./user-groups.html
+[user_group]: https://www.rust-lang.org/en-US/user-groups.html
 [calendar]: https://www.google.com/calendar/embed?src=apd9vmbc22egenmtu5l6c5jbfc@group.calendar.google.com
 
 ## Rust 团队
 
 Rust 有一个社区驱动的开发过程，大多数决策都是通过公开的讨论和共识，在各方面 [团队][teams] 的指导下做出：
 
-* [核心团队][core_team] 是负责指导设计和发展流程，监督新特性的引入，以及最终做出无法达成共识的决定（这很少发生）。
+- [核心团队][core_team] 是负责指导设计和发展流程，监督新特性的引入，以及最终做出无法达成共识的决定（这很少发生）。
 
-* [语言设计团队][language_team] 负责设计新的语言特性。
+- [语言设计团队][language_team] 负责设计新的语言特性。
 
-* [库团队][library_team] 负责 Rust 标准库、rust-lang 包，及公约。
+- [库团队][library_team] 负责 Rust 标准库、rust-lang 包，及公约。
 
-* [编译器团队][compiler_team] 负责编译器内部和优化。
+- [编译器团队][compiler_team] 负责编译器内部和优化。
 
-* [开发工具团队][dev_tool_team] 负责设定 Rust 开发工具的总体方向。
+- [开发工具团队][dev_tool_team] 负责设定 Rust 开发工具的总体方向。
 
-* [Cargo 团队][cargo_team] 负责 Cargo 的设计和实现。
+- [Cargo 团队][cargo_team] 负责 Cargo 的设计和实现。
 
-* [基础设施团队][infra_team] 负责支持项目本身的工具：CI、发布生成、机器人、指标。
+- [基础设施团队][infra_team] 负责支持项目本身的工具：CI、发布生成、机器人、指标。
 
-* [社区团队][community_team] 负责协调活动、推广、商业用户、教材和曝光。他们也可以就联络 Rust 当事人进行协调。
+- [社区团队][community_team] 负责协调活动、推广、商业用户、教材和曝光。他们也可以就联络 Rust 当事人进行协调。
 
-* [管理团队][mod_team] 负责维护 [行为守则][coc]。
+- [管理团队][mod_team] 负责维护 [行为守则][coc]。
 
-* [文档团队][doc_team] 负责确保 Rust 有出色的文档。
+- [文档团队][doc_team] 负责确保 Rust 有出色的文档。
 
 除了上述官方团队名册，大多数团队也都有更大的一套了解该领域知识并且可以签发代码的审稿人。
 如果您有兴趣参与上述团队，随时与团队领导或其中的其他成员联系，他可以帮助你入门。
 
-[teams]: team.html
-[core_team]: team.html#Core-team
-[language_team]: team.html#Language-design-team
-[library_team]: team.html#Library-team
-[compiler_team]: team.html#Compiler-team
-[dev_tool_team]: team.html#Dev-tools-team
-[cargo_team]: team.html#Cargo-team
-[community_team]: team.html#Community-team
-[mod_team]: team.html#Moderation-team
-[doc_team]: team.html#Documentation-team
-[infra_team]: team.html#Infrastructure-team
+[teams]: https://www.rust-lang.org/en-US/team.html
+[core_team]: https://www.rust-lang.org/en-US/team.html#Core-team
+[language_team]: https://www.rust-lang.org/en-US/team.html#Language-design-team
+[library_team]: https://www.rust-lang.org/en-US/team.html#Library-team
+[compiler_team]: https://www.rust-lang.org/en-US/team.html#Compiler-team
+[dev_tool_team]: https://www.rust-lang.org/en-US/team.html#Dev-tools-team
+[cargo_team]: https://www.rust-lang.org/en-US/team.html#Cargo-team
+[community_team]: https://www.rust-lang.org/en-US/team.html#Community-team
+[mod_team]: https://www.rust-lang.org/en-US/team.html#Moderation-team
+[doc_team]: https://www.rust-lang.org/en-US/team.html#Documentation-team
+[infra_team]: https://www.rust-lang.org/en-US/team.html#Infrastructure-team
 
 ## Rust 开发
 
@@ -215,7 +290,7 @@ Rust 有超过 [2,000 名独立贡献者][authors]，这个数字每周还都在
 - [RFC 代码库][rfcs] 跟踪我们的请求评论流程，Rust 社区和团队主要通过它就为语言、官方库和工具提出的新功能特性达成共识。
 
 [authors]: https://thanks.rust-lang.org/rust/all-time
-[contribute]: contribute.html
+[contribute]: https://www.rust-lang.org/zh-CN/contribute.html
 [github]: https://github.com/rust-lang/rust
 [rfcs]: https://github.com/rust-lang/rfcs
 [issue_tracking]: https://github.com/rust-lang/rust/issues

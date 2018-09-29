@@ -1,6 +1,7 @@
 let { book } = require ('./category/rust.js')
 let { std } = require ('./category/std.js')
 let { tokio } = require ('./category/tokio.js')
+let { awesome } = require ('./category/awesome.js')
 
 module.exports = {
     title: 'Rust中文社区',
@@ -42,14 +43,19 @@ module.exports = {
             { text: 'Actix-web', link: '/server/actix-web/' },
             { text: 'Diesel', link: '/server/diesel/' }
           ] },
-          { text: 'Wasm', link: '/wasm/' },
+          { text: 'Wasm', items: [ 
+            { text: 'Book', link: '/wasm/book/' },
+            { text: 'Wasm-bindgen', link: '/wasm/wasm-bindgen/' },
+            { text: '资源', link: '/wasm/resourse/' }
+          ] },
           { text: 'IOT', items: [ 
-            { text: '教程', link: '/iot/book/' },
+            { text: 'Discovery', link: '/iot/discovery/' },
+            { text: 'Embedded-book', link: '/iot/book/' },
+            { text: 'Embedonomicon', link: '/iot/embedonomicon/' },
             { text: '资源', link: '/iot/resourse/' }
           ] },
           { text: '资源', items: [ 
-            { text: '官方', link: '/resourse/office/' },
-            { text: '社区', link: '/resourse/community/' },
+            { text: 'Awesome', link: '/resourse/awesome/' },
             { text: 'Crates', link: '/resourse/crates/' }
           ] },
           { text: '论坛', link: 'http://ruster.xyz' }
@@ -61,8 +67,7 @@ module.exports = {
           '/server/actix/': genActix('Actix'),
           '/server/actix-web/': genActixWeb('Actix-Web'),
           '/server/diesel/': genDiesel('Diesel'),
-          '/resourse/office/': genOffice('官方'),
-          '/resourse/community/': genCommunity('社区')
+          '/resourse/awesome/': awesome('Awesome')
         }
     }
   }
@@ -158,30 +163,6 @@ module.exports = {
           'schema-in-depth',
           'extending-diesel',
           'configuring-diesel-CLI'
-        ]
-      }
-    ]
-  }
-
-  function genOffice (title) {
-    return [
-      {
-        title,
-        collapsable: false,
-        children: [
-          'resourse'
-        ]
-      }
-    ]
-  }
-
-  function genCommunity (title) {
-    return [
-      {
-        title,
-        collapsable: false,
-        children: [
-          'actix'
         ]
       }
     ]

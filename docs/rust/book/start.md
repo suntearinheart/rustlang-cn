@@ -45,6 +45,23 @@ $ export PATH="$HOME/.cargo/bin:$PATH"
 
 本书的余下部分，使用能同时运行于 *cmd.exe* 和 PowerShell 的命令。如果存在特定差异，我们会解释使用哪一个。
 
+### 关于 Rust 安装的注意事项
+
+Rust 由 [rustup](https://github.com/rust-lang-nursery/rustup.rs) 工具来安装和管理。 Rust 有一个 6 周的 快速发布过程 并且支持 大量的平台 ，所以任何时候都有很多 Rust 构建可用。 rustup 在 Rust 支持的每一个平台上以一致的方式管理这些构建， 并可以从 beta 和 nightly 发布渠道安装 Rust，且支持额外的交叉编译目标平台。
+
+更多信息请查看 [rustup documentation](https://github.com/rust-lang-nursery/rustup.rs/blob/master/README.md)。
+
+配置 PATH 环境变量
+在 Rust 开发环境中，所有工具都安装到 ~/.cargo/bin 目录， 并且您能够在这里找到 Rust 工具链，包括 rustc、cargo 及 rustup。
+
+因此，Rust 开发者们通常会将此目录放入 PATH 环境变量。在安装时，rustup 会尝试配置 PATH， 但是因为不同平台、命令行之间的差异，以及 rustup 的 bug，对于 PATH 的修改将会在重启终端、用户登出之后生效，或者有可能完全不会生效。
+
+当安装完成之后，如果在控制台运行 rustc --version 失败，这是最可能的原因。
+
+### 其他安装方法
+
+上述通过 rustup 的安装方法是大多数开发者的首选。 此外， Rust 也可以 通过[其他方法安装](https://www.rust-lang.org/zh-CN/other-installers.html)。
+
 ### 更新和卸载
 
 通过 `rustup` 安装了 Rust 之后，很容易更新到最新版本。在 shell 中运行如下更新脚本：

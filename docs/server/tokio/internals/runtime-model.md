@@ -1,6 +1,6 @@
 # 运行时模型
 
-使用Tokio编写的应用程序组织在大量小的非阻塞任务中。 Tokio任务类似于[goroutine](https://www.golang-book.com/books/intro/10#section1)或者[Erlang进程](http：//erlang.org/doc/reference_manual/processes.html)，但是是非阻塞的。它们设计为轻量级，可以快速生成，并保持较低的调度开销。它们也是非阻塞的，因为无法立即完成的此类操作必须立即返回。它们返回一个表示操作正在进行的值，而不是返回操作的结果,表明操作正在进行中。
+使用Tokio编写的应用程序组织在大量小的非阻塞任务中。 Tokio任务类似于[goroutine](https://www.golang-book.com/books/intro/10#section1)或者[Erlang进程](http://erlang.org/doc/reference_manual/processes.html)，但是是非阻塞的。它们设计为轻量级，可以快速生成，并保持较低的调度开销。它们也是非阻塞的，因为无法立即完成的此类操作必须立即返回。它们返回一个表示操作正在进行的值，而不是返回操作的结果,表明操作正在进行中。
 
 ## 非阻塞执行
 
@@ -47,7 +47,7 @@ impl Future for MyTask {
 
 因此，实现`poll`在很短的时间内执行才是重要的。对于I / O绑定的应用程序，通常会发生这种情况。但是，如果任务预计必须长时间运行，则应该推迟工作到[blocking pool]或将计算分解为更小的块和在每个块执行之后[yield]回来。
 
-[blocking pool]: https：//docs.rs/tokio-threadpool/0.1/tokio_threadpool/fn.blocking.html
+[blocking pool]: https://docs.rs/tokio-threadpool/0.1/tokio_threadpool/fn.blocking.html
 
 ## 任务系统
 
