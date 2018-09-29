@@ -72,7 +72,7 @@ impl Future for MyTask {
 
 ## `Async :: NotReady`
 
-任何返回`Async`的函数都必须遵守[contract][contract](契约)。 当返回`NotReady`，当前任务**必须**已经注册准备就绪变更通知。 以上部分讨论了资源的含义。 对于任务逻辑，这意味着无法返回`NotReady`除非资源已返回“NotReady”。 通过这样做，[contract][contract]得到了传承。 当前任务已注册通知，因为已从资源收到`NotReady`。
+任何返回`Async`的函数都必须遵守[contract][contract](契约)。 当返回`NotReady`，当前任务**必须**已经注册准备就绪的变更通知。 以上部分讨论了资源的含义。 对于任务逻辑，这意味着无法返回`NotReady`除非资源已返回“NotReady”。 通过这样做，[contract][contract]得到了传承。 当前任务已注册通知，因为已从资源收到`NotReady`。
 
 必须非常小心避免在没有从资源收到`NotReady`的情况下返回`NotReady`。 例如，以下任务中，任务实现结果永远不会完成。
 
@@ -188,15 +188,15 @@ impl Future for Count {
 
 当调用[`poll_future_notify`][poll_future_notify]时， `executor`也是传递通知句柄和标识符。这些参数包含在由[`task :: current`][current]返回的任务句柄中，也是有关任务与`executor`连接的方式。
 
-notify句柄是[`Notify`][`Notify`] 的实现，标识符是 `executor`用于查找当前任务的值。当调用[`Task :: notify`][notify]，[`notify`][Notify :: notify]函数使用提供的标识符调用notify句柄。该函数的实现负责执行调度逻辑。
+notify句柄是[`Notify`][`Notify`] 的实现，标识符是 `executor`用于查找当前任务的值。当调用[`Task::notify`][notify]，[`notify`][Notify::notify]函数使用提供的标识符调用notify句柄。该函数的实现负责执行调度逻辑。
 
-实现 `executor`的一种策略是将每个任务存储在`Box`和使用链接列表来跟踪计划执行的任务。当调用[`Notify :: notify`][Notify :: notify]，然后将与之关联的任务标识符被推送到`scheduled`链表的末尾。当 `executor`运行时，它从链表的前端弹出并执行任务如上所述。
+实现 `executor`的一种策略是将每个任务存储在`Box`和使用链接列表来跟踪计划执行的任务。当调用[`Notify :: notify`][Notify::notify]，然后将与之关联的任务标识符被推送到`scheduled`链表的末尾。当 `executor`运行时，它从链表的前端弹出并执行任务如上所述。
 
 请注意，本节未介绍 `executor`的运行方式。细节这留给 `executor`实现。一个选项是 `executor`产生一个或多个线程并将这些线程专用于排出`scheduled`链表。另一个是提供一个`MyExecutor :: run`函数阻塞当前线程并排出`scheduled`链表。
 
 ## 资源，drivers和运行时
 
-资源是叶子 `future`，即未实施的 `future`其他 `future`。它们是使用上述任务系统的类型与 `executor`互动。资源类型包括TCP和UDP套接字，定时器，通道，文件句柄等.Tokio应用程序很少需要实现资源。相反，他们使用Tokio或第三方包装箱提供的资源。
+资源是叶子`futures`，即未以其他`futures`实施的`futures`。它们是使用上述任务系统的类型与 `executor`互动。资源类型包括TCP和UDP套接字，定时器，通道，文件句柄等.Tokio应用程序很少需要实现资源。相反，他们使用Tokio或第三方包装箱提供的资源。
 
 通常，资源本身不能起作用而是需要drivers。例如，Tokio TCP套接字由[`Reactor`]支持。`Reactor`是socket资源driver。单个driver可以为大量资源实例提供动力。要使用该资源，drivers必须在某处运行这个过程。 Tokio提供网络资源的drivers（[`tokio-reactor`]），文件资源（[`tokio-fs`]）和定时器（[`tokio-timer`]）。提供解耦driver组件允许用户选择他们想要使用的组件。每个driver可以单独使用或与其他driver结合使用。
 
