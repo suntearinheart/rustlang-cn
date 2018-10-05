@@ -87,6 +87,7 @@
   * [base64](https://crates.io/crates/base64)
   * binary
   * [csv](https://crates.io/crates/csv)
+    * [tsv](https://crates.io/crates/tsv) 
   * gob
   * hex
   * json
