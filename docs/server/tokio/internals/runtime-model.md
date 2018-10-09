@@ -178,7 +178,7 @@ impl Future for Count {
 }
 ```
 
-##  `executor`
+## `executor`
 
  `executor`员负责驱动完成许多任务。任务是产生于 `executor`之上， 是在`executor`需要调用它的`poll`函数的时候。 `executor`挂钩到任务系统以接收资源准备通知。
 

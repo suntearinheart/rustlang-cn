@@ -22,7 +22,7 @@ fn index(req: HttpRequest) -> String {
 }
 ```
 
-`impl Responder`如果涉及更复杂的类型，您还可以更改要返回的签名。
+如果涉及更复杂的类型，您还可以更改签名返回`impl Responder`。
 
 ```rust
 fn index(req: HttpRequest) -> impl Responder {
