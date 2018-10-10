@@ -17,40 +17,40 @@
 如果必须手动运行析构函数，例如在实现自己的智能指针时，可以使用`std :: ptr :: drop_in_place`。
 
 ```rust
-struct ShowOnDrop（＆'static str）;
+struct ShowOnDrop(&'static str);
 
 impl Drop for ShowOnDrop {
-    fn drop（＆mut self）{
-        println！（“{}”，self.0）;
-    }
+    fn drop(&mut self) {
+        println!("{}", self.0);
+    }
 }
 
 {
-    let mut overwritten = ShowOnDrop（“覆盖时丢弃”）;
-    overwritten = ShowOnDrop（“当范围结束时丢弃”）;
+    let mut overwritten = ShowOnDrop("Drops when overwritten");
+    overwritten = ShowOnDrop("drops when scope ends");
 }
 {
-    let declared_first = ShowOnDrop（“Dropped last”）;
-    let declared_last = ShowOnDrop（“Dropped first”）;
+    let declared_first = ShowOnDrop("Dropped last");
+    let declared_last = ShowOnDrop("Dropped first");
 }
 {
-    //元组元素按顺序递减
-    let tuple =（ShowOnDrop（“Tuple first”），ShowOnDrop（“Tuple second”））;
+    // Tuple elements drop in forwards order
+    let tuple = (ShowOnDrop("Tuple first"), ShowOnDrop("Tuple second"));
 }
-循环{
-    //元组表达式没有完成评估，因此临时表以相反的顺序下降：
-    let partial_tuple =（ShowOnDrop（“Temp first”），ShowOnDrop（“Temp second”），break）;
+loop {
+    // Tuple expression doesn't finish evaluating so temporaries drop in reverse order:
+    let partial_tuple = (ShowOnDrop("Temp first"), ShowOnDrop("Temp second"), break);
 }
 {
-    让我感动;
-    //没有析构函数在赋值时运行。
-    moving = ShowOnDrop（“移动时丢弃”）;
-    //现在掉线，但是未初始化
-    移动;
-    让uninitialized：ShowOnDrop;
-    //只有第一个元素掉落
-    让mut partial_initialized :( ShowOnDrop，ShowOnDrop）;
-    partially_initialized.0 = ShowOnDrop（“Partial tuple first”）;
+    let moved;
+    // No destructor run on assignment.
+    moved = ShowOnDrop("Drops when moved");
+    // drops now, but is then uninitialized
+    moved;
+    let uninitialized: ShowOnDrop;
+    // Only first element drops
+    let mut partially_initialized: (ShowOnDrop, ShowOnDrop);
+    partially_initialized.0 = ShowOnDrop("Partial tuple first");
 }
 ```
 

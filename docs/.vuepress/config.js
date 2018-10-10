@@ -32,7 +32,6 @@ module.exports = {
         nav: [
           { text: 'Rust语言', items: [ 
             { text: 'Rust编程', link: '/rust/book/' },
-            { text: '深入Rust', link: '/rust/depth/' },
             { text: '标准库', link: '/rust/std/' },
             { text: '规范', link: '/rust/reference/' },
             { text: '资源', link: '/rust/resourse/' }
